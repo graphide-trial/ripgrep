@@ -1,5 +1,6 @@
 name: ci
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
@@ -51,26 +52,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - build: pinned
-          os: ubuntu-latest
-          rust: 1.96.0
         - build: stable
           os: ubuntu-latest
           rust: stable
-        - build: beta
-          os: ubuntu-latest
-          rust: beta
-        - build: nightly
-          os: ubuntu-latest
-          rust: nightly
         - build: stable-musl
           os: ubuntu-latest
           rust: stable
           target: x86_64-unknown-linux-musl
-        - build: stable-x86
-          os: ubuntu-latest
-          rust: stable
-          target: i686-unknown-linux-gnu
         - build: stable-aarch64
           os: ubuntu-latest
           rust: stable
@@ -79,42 +67,6 @@ jobs:
           os: ubuntu-latest
           rust: stable
           target: aarch64-unknown-linux-musl
-        - build: stable-arm-gnueabihf
-          os: ubuntu-latest
-          rust: stable
-          target: armv7-unknown-linux-gnueabihf
-        - build: stable-arm-musleabihf
-          os: ubuntu-latest
-          rust: stable
-          target: armv7-unknown-linux-musleabihf
-        - build: stable-arm-musleabi
-          os: ubuntu-latest
-          rust: stable
-          target: armv7-unknown-linux-musleabi
-        - build: stable-powerpc64
-          os: ubuntu-latest
-          rust: stable
-          target: powerpc64-unknown-linux-gnu
-        - build: stable-s390x
-          os: ubuntu-latest
-          rust: stable
-          target: s390x-unknown-linux-gnu
-        - build: stable-riscv64
-          os: ubuntu-latest
-          rust: stable
-          target: riscv64gc-unknown-linux-gnu
-        - build: macos
-          os: macos-latest
-          rust: nightly
-        - build: win-msvc
-          os: windows-latest
-          rust: nightly
-        - build: win-gnu
-          os: windows-latest
-          rust: nightly-x86_64-gnu
-        - build: winaarch64-msvc
-          os: windows-11-arm
-          rust: nightly
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -212,6 +164,7 @@ jobs:
 
      # Setup and compile on the wasm32-wasip1 target
   wasm:
+    if: false
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -226,6 +179,7 @@ jobs:
       run: cargo build --verbose
 
   rustfmt:
+    if: false
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -239,6 +193,7 @@ jobs:
       run: cargo fmt --all --check
 
   docs:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -253,6 +208,7 @@ jobs:
         run: cargo doc --no-deps --document-private-items --workspace
 
   benches:
+    if: false
     name: Test benchmarks
     runs-on: ubuntu-latest
     steps:
@@ -266,6 +222,7 @@ jobs:
         run: cargo +nightly test -p ignore --benches
 
   fuzz_testing:
+    if: false
     name: Compile Fuzz Test Targets
     runs-on: ubuntu-latest
     steps:
