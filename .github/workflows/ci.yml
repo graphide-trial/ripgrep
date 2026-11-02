@@ -1,0 +1,7 @@
+name: ci
+on: workflow_dispatch
+jobs:
+  stub:
+    runs-on: graphide-hold-do-not-run
+    steps:
+      - run: "true"
